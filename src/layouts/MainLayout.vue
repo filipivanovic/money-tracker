@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh lpR lFf">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -12,10 +12,12 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          <div class="absolute-center">
+            <q-icon name="savings" />
+            MoneyTracker
+          </div>
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
@@ -23,10 +25,12 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
+      class="bg-primary"
     >
       <q-list>
         <q-item-label
           header
+          class="text-white"
         >
           Essential Links
         </q-item-label>
