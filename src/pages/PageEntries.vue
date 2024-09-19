@@ -2,10 +2,10 @@
   <q-page>
     <div class="q-pa-md">
       <q-list bordered separator>
-        <q-slide-item v-for="entry in entries" :key="entry.id" @left="onLeft" @right="onRight" left-color="positive" right-color="negative">
-          <template v-slot:left>
-            <q-icon name="done" />
-          </template>
+        <q-slide-item v-for="entry in entries" :key="entry.id" @left="" @right="onEntrySlideRight($event, entry)" left-color="positive" right-color="negative">
+<!--          <template v-slot:left>-->
+<!--            <q-icon name="done" />-->
+<!--          </template>-->
           <template v-slot:right>
             <q-icon name="delete" />
           </template>
@@ -41,9 +41,13 @@
 // imports
 
 import { ref, reactive, computed } from 'vue'
-import { uid } from 'quasar'
+import { uid, useQuasar } from 'quasar'
 import { useCurrencify } from "src/use/useCurrencify"
 import { useAmountColorClass } from "src/use/useAmountColorClass"
+
+// quasar
+
+const $q = useQuasar()
 
 // entries
 
@@ -109,6 +113,44 @@ const addEntry = () => {
   entries.value.push(newEntry)
   addEntryForReset()
   nameRef.value.focus()
+}
+
+// slide items
+
+const onEntrySlideRight = ({ reset }, entry) => {
+  $q.dialog({
+    title: 'Delete Entry',
+    message: `Would you like to delete this entry?
+    <div class="text-weight-bold ${useAmountColorClass(entry.amount)}">
+        ${entry.name} : ${useCurrencify(entry.amount)}
+    </div>`,
+    // cancel: true,
+    html: true,
+    persistent: true,
+    ok: {
+      label: 'Delete',
+      color: 'negative'
+    },
+    cancel: {
+      color: 'primary'
+    }
+
+  }).onOk(() => {
+    deleteEntry(entry.id)
+    $q.notify({
+      message: 'Entry deleted',
+      position: 'top'
+    })
+  }).onCancel(() => {
+    reset()
+  })
+}
+
+// delete entry
+
+const deleteEntry = (entryId) => {
+  const index = entries.value.findIndex(entry => entry.id === entryId)
+  entries.value.splice(index, 1)
 }
 
 
