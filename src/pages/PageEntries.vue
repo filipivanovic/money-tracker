@@ -18,17 +18,17 @@
         <div class="col text-grey-7 text-h6">Balance:</div>
         <div class="col text-h6 text-right" :class="useAmountColorClass(balance)">{{ useCurrencify(balance) }}</div>
       </div>
-      <div class="row q-px-sm q-pb-sm q-col-gutter-sm bg-primary" >
+      <q-form @submit.prevent="addEntry" class="row q-px-sm q-pb-sm q-col-gutter-sm bg-primary" >
         <div class="col">
-          <q-input placeholder="Name" bg-color="white" dense outlined></q-input>
+          <q-input ref="nameRef" v-model="addEntryForm.name" placeholder="Name" bg-color="white" dense outlined></q-input>
         </div>
         <div class="col">
-          <q-input placeholder="Amount" bg-color="white" type="number" step="0.01" input-class="text-right" dense outlined></q-input>
+          <q-input v-model.number="addEntryForm.amount" placeholder="Amount" bg-color="white" type="number" step="0.01" input-class="text-right" dense outlined></q-input>
         </div>
         <div class="col col-auto">
-          <q-btn round color="primary" icon="add"></q-btn>
+          <q-btn type="submit" round color="primary" icon="add"></q-btn>
         </div>
-      </div>
+      </q-form>
     </q-footer>
   </q-page>
 </template>
@@ -37,7 +37,8 @@
 
 // imports
 
-import { ref, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
+import { uid } from 'quasar'
 import { useCurrencify } from "src/use/useCurrencify"
 import { useAmountColorClass } from "src/use/useAmountColorClass"
 
@@ -79,7 +80,33 @@ const balance = computed(() => {
   // return balance
 })
 
+// add entry
 
+const nameRef = ref(null)
+
+const addEntryFormDefault = {
+  name: '',
+  amount: null
+}
+
+const addEntryForm = reactive({
+  ...addEntryFormDefault
+})
+
+const addEntryForReset = () => {
+  Object.assign(addEntryForm, addEntryFormDefault)
+}
+
+const addEntry = () => {
+  const newEntry = {
+    id: uid(),
+    name: addEntryForm.name,
+    amount: addEntryForm.amount
+  }
+  entries.value.push(newEntry)
+  addEntryForReset()
+  nameRef.value.focus()
+}
 
 
 </script>
