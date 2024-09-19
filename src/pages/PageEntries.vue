@@ -2,7 +2,7 @@
   <q-page>
     <div class="q-pa-md">
       <q-list bordered separator>
-        <q-slide-item v-for="entry in entries" :key="entry.id" @left="" @right="onEntrySlideRight($event, entry)" left-color="positive" right-color="negative">
+        <q-slide-item v-for="entry in storeEntries.entries" :key="entry.id" @left="" @right="onEntrySlideRight($event, entry)" left-color="positive" right-color="negative">
 <!--          <template v-slot:left>-->
 <!--            <q-icon name="done" />-->
 <!--          </template>-->
@@ -19,9 +19,9 @@
     <q-footer class="bg-transparent">
       <div class="row q-px-md q-py-sm q-mb-sm shadow-up-3">
         <div class="col text-grey-7 text-h6">Balance:</div>
-        <div class="col text-h6 text-right" :class="useAmountColorClass(balance)">{{ useCurrencify(balance) }}</div>
+        <div class="col text-h6 text-right" :class="useAmountColorClass(storeEntries.balance)">{{ useCurrencify(storeEntries.balance) }}</div>
       </div>
-      <q-form @submit.prevent="addEntry" class="row q-px-sm q-pb-sm q-col-gutter-sm bg-primary" >
+      <q-form @submit.prevent="addEntryFormSubmit" class="row q-px-sm q-pb-sm q-col-gutter-sm bg-primary" >
         <div class="col">
           <q-input ref="nameRef" v-model="addEntryForm.name" placeholder="Name" bg-color="white" dense outlined></q-input>
         </div>
@@ -40,8 +40,9 @@
 
 // imports
 
-import { ref, reactive, computed } from 'vue'
-import { uid, useQuasar } from 'quasar'
+import { ref, reactive } from 'vue'
+import { useQuasar } from 'quasar'
+import { useStoreEntries } from 'src/stores/storeEntries'
 import { useCurrencify } from "src/use/useCurrencify"
 import { useAmountColorClass } from "src/use/useAmountColorClass"
 
@@ -49,43 +50,10 @@ import { useAmountColorClass } from "src/use/useAmountColorClass"
 
 const $q = useQuasar()
 
-// entries
 
-const entries = ref([
-  {
-    id: 'id1',
-    name: 'Salary',
-    amount: 4999.99
-  },
-  {
-    id: 'id2',
-    name: 'Rent',
-    amount: -999
-  },
-  {
-    id: 'id3',
-    name: 'Phone',
-    amount: -14.99
-  },
-  {
-    id: 'id4',
-    name: 'Unknown',
-    amount: 0
-  },
-])
+// stores
 
-// balance
-
-const balance = computed(() => {
-  return entries.value.reduce((accumulator, {amount}) => {
-    return accumulator + amount
-  }, 0)
-  // let balance = 0
-  // entries.value.forEach(entry => {
-  //   balance = balance + entry.amount
-  // })
-  // return balance
-})
+const storeEntries = useStoreEntries()
 
 // add entry
 
@@ -102,17 +70,12 @@ const addEntryForm = reactive({
 
 const addEntryForReset = () => {
   Object.assign(addEntryForm, addEntryFormDefault)
+  nameRef.value.focus()
 }
 
-const addEntry = () => {
-  const newEntry = {
-    id: uid(),
-    name: addEntryForm.name,
-    amount: addEntryForm.amount
-  }
-  entries.value.push(newEntry)
+const addEntryFormSubmit = () => {
+  storeEntries.addEntry(addEntryForm)
   addEntryForReset()
-  nameRef.value.focus()
 }
 
 // slide items
@@ -136,21 +99,10 @@ const onEntrySlideRight = ({ reset }, entry) => {
     }
 
   }).onOk(() => {
-    deleteEntry(entry.id)
-    $q.notify({
-      message: 'Entry deleted',
-      position: 'top'
-    })
+    storeEntries.deleteEntry(entry.id)
   }).onCancel(() => {
     reset()
   })
-}
-
-// delete entry
-
-const deleteEntry = (entryId) => {
-  const index = entries.value.findIndex(entry => entry.id === entryId)
-  entries.value.splice(index, 1)
 }
 
 
