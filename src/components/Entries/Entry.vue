@@ -6,6 +6,7 @@ import { useQuasar } from 'quasar'
 import { useStoreEntries } from 'src/stores/storeEntries'
 import { useCurrencify } from "src/use/useCurrencify"
 import { useAmountColorClass } from "src/use/useAmountColorClass"
+import vSelectAll from 'src/directives/directiveSelectAll'
 
 // quasar
 
@@ -78,13 +79,13 @@ const onAmountUpdate = (value) => {
       <q-item-section class="text-weight-bold" :class="[useAmountColorClass(props.entry.amount), {'text-strike': entry.paid}]">
         {{ props.entry.name }}
         <q-popup-edit :model-value="props.entry.name" anchor="top left" :offset="[16, 12]" buttons label-set="OK" @save="onNameUpdate" :cover="false" auto-save v-slot="scope">
-          <q-input v-model="scope.value" dense autofocus @keyup.enter="scope.set" />
+          <q-input v-select-all v-model="scope.value" dense autofocus @keyup.enter="scope.set" />
         </q-popup-edit>
       </q-item-section>
       <q-item-section class="text-weight-bold" :class="[useAmountColorClass(props.entry.amount), {'text-strike': entry.paid}]" side>
         {{ useCurrencify(props.entry.amount) }}
         <q-popup-edit :model-value="props.entry.amount" anchor="top left" :offset="[16, 12]" buttons label-set="OK" @save="onAmountUpdate" :cover="false" auto-save v-slot="scope">
-          <q-input v-model.number="scope.value" input-class="text-right" step="0.01" type="number" dense autofocus @keyup.enter="scope.set" />
+          <q-input v-select-all v-model.number="scope.value" input-class="text-right" step="0.01" type="number" dense autofocus @keyup.enter="scope.set" />
         </q-popup-edit>
       </q-item-section>
       <q-item-section v-if="storeEntries.options.sort" side>
