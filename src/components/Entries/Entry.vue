@@ -87,6 +87,9 @@ const onAmountUpdate = (value) => {
           <q-input v-model.number="scope.value" input-class="text-right" step="0.01" type="number" dense autofocus @keyup.enter="scope.set" />
         </q-popup-edit>
       </q-item-section>
+      <q-item-section v-if="storeEntries.options.sort" side>
+        <q-icon class="handle" name="reorder" color="primary" />
+      </q-item-section>
     </q-item>
   </q-slide-item>
 </template>
