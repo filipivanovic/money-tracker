@@ -67,7 +67,7 @@ const onAmountUpdate = (value) => {
 </script>
 
 <template>
-  <q-slide-item @left="onEntrySlideLeft($event, entry)" @right="onEntrySlideRight($event, entry)" left-color="positive" right-color="negative">
+  <q-slide-item :class="{'bg-grey-2': entry.paid}" @left="onEntrySlideLeft($event, entry)" @right="onEntrySlideRight($event, entry)" left-color="positive" right-color="negative">
     <template v-slot:left>
       <q-icon name="done" />
     </template>
@@ -75,13 +75,13 @@ const onAmountUpdate = (value) => {
       <q-icon name="delete" />
     </template>
     <q-item>
-      <q-item-section class="text-weight-bold" :class="useAmountColorClass(props.entry.amount)">
+      <q-item-section class="text-weight-bold" :class="[useAmountColorClass(props.entry.amount), {'text-strike': entry.paid}]">
         {{ props.entry.name }}
         <q-popup-edit :model-value="props.entry.name" anchor="top left" :offset="[16, 12]" buttons label-set="OK" @save="onNameUpdate" :cover="false" auto-save v-slot="scope">
           <q-input v-model="scope.value" dense autofocus @keyup.enter="scope.set" />
         </q-popup-edit>
       </q-item-section>
-      <q-item-section class="text-weight-bold" :class="useAmountColorClass(props.entry.amount)" side>
+      <q-item-section class="text-weight-bold" :class="[useAmountColorClass(props.entry.amount), {'text-strike': entry.paid}]" side>
         {{ useCurrencify(props.entry.amount) }}
         <q-popup-edit :model-value="props.entry.amount" anchor="top left" :offset="[16, 12]" buttons label-set="OK" @save="onAmountUpdate" :cover="false" auto-save v-slot="scope">
           <q-input v-model.number="scope.value" input-class="text-right" step="0.01" type="number" dense autofocus @keyup.enter="scope.set" />
