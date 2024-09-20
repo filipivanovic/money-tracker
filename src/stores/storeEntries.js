@@ -45,6 +45,12 @@ export const useStoreEntries = defineStore('entries', () => {
     // })
     // return balance
   })
+  const balancePaid = computed(() => {
+    return entries.value.reduce((accumulator, {amount, paid}) => {
+
+      return paid ? accumulator + amount : accumulator
+    }, 0)
+  })
 
   // actions
 
@@ -79,6 +85,7 @@ export const useStoreEntries = defineStore('entries', () => {
 
     // getters
     balance,
+    balancePaid,
 
     // actions
     addEntry,
