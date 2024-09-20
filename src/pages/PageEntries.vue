@@ -3,7 +3,7 @@
     <div class="q-pa-md">
       <NothingHere v-if="!storeEntries.entries.length" />
       <q-list v-else bordered separator>
-        <Entry />
+        <Entry v-for="entry in storeEntries.entries" :key="entry.id" :entry="entry" />
       </q-list>
     </div>
     <q-footer class="bg-transparent">
