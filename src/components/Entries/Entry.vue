@@ -51,6 +51,10 @@ const onEntrySlideRight = ({ reset }, entry) => {
     reset()
   })
 }
+const onEntrySlideLeft = ({ reset }, entry) => {
+  storeEntries.updateEntry(entry.id, {paid: !entry.paid})
+  reset()
+}
 
 // name and amount update
 const onNameUpdate = (value) => {
@@ -63,10 +67,10 @@ const onAmountUpdate = (value) => {
 </script>
 
 <template>
-  <q-slide-item @left="" @right="onEntrySlideRight($event, entry)" left-color="positive" right-color="negative">
-    <!--          <template v-slot:left>-->
-    <!--            <q-icon name="done" />-->
-    <!--          </template>-->
+  <q-slide-item @left="onEntrySlideLeft($event, entry)" @right="onEntrySlideRight($event, entry)" left-color="positive" right-color="negative">
+    <template v-slot:left>
+      <q-icon name="done" />
+    </template>
     <template v-slot:right>
       <q-icon name="delete" />
     </template>
