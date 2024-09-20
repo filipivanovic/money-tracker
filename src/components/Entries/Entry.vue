@@ -1,7 +1,6 @@
 <script setup>
 
 // imports
-
 import { useQuasar } from 'quasar'
 import { useStoreEntries } from 'src/stores/storeEntries'
 import { useCurrencify } from "src/use/useCurrencify"
@@ -9,16 +8,13 @@ import { useAmountColorClass } from "src/use/useAmountColorClass"
 import vSelectAll from 'src/directives/directiveSelectAll'
 
 // quasar
-
 const $q = useQuasar()
 
 
 // stores
-
 const storeEntries = useStoreEntries()
 
 // props
-
 const props = defineProps({
   entry: {
     type: Object,
@@ -27,7 +23,6 @@ const props = defineProps({
 })
 
 // slide items
-
 const onEntrySlideRight = ({ reset }, entry) => {
   $q.dialog({
     title: 'Delete Entry',
