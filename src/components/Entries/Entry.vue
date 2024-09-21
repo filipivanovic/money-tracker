@@ -6,6 +6,7 @@ import { useStoreEntries } from 'src/stores/storeEntries'
 import { useCurrencify } from "src/use/useCurrencify"
 import { useAmountColorClass } from "src/use/useAmountColorClass"
 import vSelectAll from 'src/directives/directiveSelectAll'
+import { useStoreSettings } from "stores/storeSettings";
 
 // quasar
 const $q = useQuasar()
@@ -13,6 +14,7 @@ const $q = useQuasar()
 
 // stores
 const storeEntries = useStoreEntries()
+const storeSettings = useStoreSettings()
 
 // props
 const props = defineProps({
@@ -24,6 +26,11 @@ const props = defineProps({
 
 // slide items
 const onEntrySlideRight = ({ reset }, entry) => {
+  if (storeSettings.settings.promptToDelete) promptToDelete(reset, entry)
+  else storeEntries.deleteEntry(entry.id)
+}
+
+const promptToDelete = (reset, entry) => {
   $q.dialog({
     title: 'Delete Entry',
     message: `Would you like to delete this entry?
@@ -47,6 +54,7 @@ const onEntrySlideRight = ({ reset }, entry) => {
     reset()
   })
 }
+
 const onEntrySlideLeft = ({ reset }, entry) => {
   storeEntries.updateEntry(entry.id, {paid: !entry.paid})
   reset()
