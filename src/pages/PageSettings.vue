@@ -20,6 +20,11 @@
             <q-toggle color="blue" v-model="storeSettings.settings.showRunnningBalance" val="battery" />
           </q-item-section>
         </q-item>
+        <q-item tag="label" v-ripple>
+          <q-item-section>
+            <q-input v-select-all v-model="storeSettings.settings.currencySymbol" outlined label="Currency symbol" />
+          </q-item-section>
+        </q-item>
 
       </q-list>
     </div>
@@ -30,6 +35,8 @@
 
 // imports
 import { useStoreSettings } from "stores/storeSettings"
+import vSelectAll from 'src/directives/directiveSelectAll'
+
 
 const storeSettings = useStoreSettings()
 
