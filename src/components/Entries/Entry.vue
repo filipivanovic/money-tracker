@@ -21,6 +21,10 @@ const props = defineProps({
   entry: {
     type: Object,
     required: true
+  },
+  index: {
+    type: Number,
+    required: true
   }
 })
 
@@ -78,18 +82,21 @@ const onAmountUpdate = (value) => {
     <template v-slot:right>
       <q-icon name="delete" />
     </template>
-    <q-item>
-      <q-item-section class="text-weight-bold" :class="[useAmountColorClass(props.entry.amount), {'text-strike': entry.paid}]">
+    <q-item class="row">
+      <q-item-section class="text-weight-bold col" :class="[useAmountColorClass(props.entry.amount), {'text-strike': entry.paid}]">
         {{ props.entry.name }}
         <q-popup-edit :model-value="props.entry.name" anchor="top left" :offset="[16, 12]" buttons label-set="OK" @save="onNameUpdate" :cover="false" auto-save v-slot="scope">
           <q-input v-select-all v-model="scope.value" dense autofocus @keyup.enter="scope.set" />
         </q-popup-edit>
       </q-item-section>
-      <q-item-section class="text-weight-bold" :class="[useAmountColorClass(props.entry.amount), {'text-strike': entry.paid}]" side>
-        {{ useCurrencify(props.entry.amount) }}
-        <q-popup-edit :model-value="props.entry.amount" anchor="top left" :offset="[16, 12]" buttons label-set="OK" @save="onAmountUpdate" :cover="false" auto-save v-slot="scope">
+      <q-item-section class="text-weight-bold relative-position col" :class="[useAmountColorClass(props.entry.amount)]" side>
+        <span :class="{'text-strike': entry.paid}">{{ useCurrencify(props.entry.amount) }}</span>
+        <q-popup-edit :model-value="props.entry.amount" anchor="top right" self="top right" :offset="[16, 12]" buttons label-set="OK" @save="onAmountUpdate" :cover="false" auto-save v-slot="scope">
           <q-input v-select-all v-model.number="scope.value" input-class="text-right" step="0.01" type="number" dense autofocus @keyup.enter="scope.set" />
         </q-popup-edit>
+        <q-chip v-if="storeSettings.settings.showRunnningBalance" class="absolute-bottom-right running-balance" :class="useAmountColorClass(storeEntries.runningBalances[index])" outline dense size="9px">
+          {{ useCurrencify(storeEntries.runningBalances[index]) }}
+        </q-chip>
       </q-item-section>
       <q-item-section v-if="storeEntries.options.sort" side>
         <q-icon class="handle" name="reorder" color="primary" />

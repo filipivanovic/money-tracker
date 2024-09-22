@@ -7,7 +7,7 @@
       <q-list v-if="storeEntries.entries.length" class="entries">
         <Sortable @end="storeEntries.sortEnd" :list="storeEntries.entries" :options="{handle: '.handle'}" item-key="id" tag="div">
           <template #item="{element, index}">
-            <Entry :key="element.id" :entry="element" />
+            <Entry :key="element.id" :entry="element" :index="index" />
           </template>
         </Sortable>
       </q-list>
