@@ -5,6 +5,7 @@
 import { useAmountColorClass } from "src/use/useAmountColorClass";
 import { useCurrencify } from "src/use/useCurrencify";
 import { useStoreEntries } from "stores/storeEntries";
+import { useLightOrDark } from "src/use/useLightOrDark";
 
 // stores
 const storeEntries = useStoreEntries()
@@ -14,7 +15,7 @@ const storeEntries = useStoreEntries()
 </script>
 
 <template>
-  <div class="row items-center q-px-md q-py-sm q-mb-sm shadow-up-3">
+  <div class="row items-center q-px-md q-py-sm q-mb-sm" :class="useLightOrDark('shadow-up-3', 'bg-black')">
     <div class="col text-grey-7 text-h6">Balance:</div>
     <div class="col text-h6 text-right" :class="useAmountColorClass(storeEntries.balance)">
       <div class="row">

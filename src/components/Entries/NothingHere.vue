@@ -1,11 +1,12 @@
 <script setup>
 
+import { useLightOrDark } from "src/use/useLightOrDark";
 </script>
 
 <template>
   <div class="text-center q-pt-xl">
-    <q-icon name="savings" size="100px" color="grey-4"></q-icon>
-    <div class="text-grey-5">No entries yet</div>
+    <q-icon name="savings" size="100px" :color="useLightOrDark('grey-4', 'grey-9')"></q-icon>
+    <div :class="useLightOrDark('text-grey-5', 'text-grey-7')">No entries yet</div>
   </div>
 </template>
 

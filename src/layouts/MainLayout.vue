@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh lpR lFf">
-    <q-header elevated>
+    <q-header :elevated="useLightOrDark(true, false)">
       <q-toolbar>
         <q-btn
           flat
@@ -57,6 +57,7 @@
 import { ref } from 'vue'
 import EssentialLink from 'components/navigation/NavLink.vue'
 import { useStoreEntries } from 'src/stores/storeEntries'
+import { useLightOrDark } from "src/use/useLightOrDark";
 
 // stores
 
