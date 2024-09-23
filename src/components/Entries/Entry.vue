@@ -76,7 +76,7 @@ const onAmountUpdate = (value) => {
 </script>
 
 <template>
-  <q-slide-item :class="!entry.paid ? useLightOrDark('bg-white', 'bg-black') : useLightOrDark('bg-grey-2', 'bg-grey-10')" @left="onEntrySlideLeft($event, entry)" @right="onEntrySlideRight($event, entry)" left-color="positive" right-color="negative">
+  <q-slide-item :class="!entry.paid ? useLightOrDark('bg-white', 'bg-black') : useLightOrDark('bg-grey-2', 'bg-grey-10')" :id="`id-${entry.id}`" @left="onEntrySlideLeft($event, entry)" @right="onEntrySlideRight($event, entry)" left-color="positive" right-color="negative">
     <template v-slot:left>
       <q-icon name="done" />
     </template>
