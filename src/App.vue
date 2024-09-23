@@ -4,7 +4,8 @@
 
 <script setup>
 
-import { useStoreSettings } from "stores/storeSettings";
+import { useStoreSettings } from "stores/storeSettings"
+import { useStoreEntries } from "stores/storeEntries"
 import { onMounted } from "vue";
 
 defineOptions({
@@ -12,9 +13,11 @@ defineOptions({
 });
 
 const storeSettings = useStoreSettings()
+const storeEntries = useStoreEntries()
 
 onMounted(() => {
   storeSettings.loadSettings()
+  storeEntries.loadEntries()
 })
 
 window.addEventListener('contextmenu', e => {
