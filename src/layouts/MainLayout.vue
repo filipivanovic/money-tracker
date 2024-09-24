@@ -76,9 +76,8 @@ import { useQuasar } from "quasar"
 import NavLink from 'components/navigation/NavLink.vue'
 import { useStoreEntries } from 'src/stores/storeEntries'
 import { useLightOrDark } from "src/use/useLightOrDark";
-import { useAmountColorClass } from "src/use/useAmountColorClass";
-import { useCurrencify } from "src/use/useCurrencify";
-import { ipcRenderer } from "electron";
+import { useAmountColorClass } from "src/use/useAmountColorClass"
+import { useCurrencify } from "src/use/useCurrencify"
 
 // stores
 
