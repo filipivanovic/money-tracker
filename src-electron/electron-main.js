@@ -1,5 +1,5 @@
 //  imports
-import { app, BrowserWindow, Menu } from 'electron'
+import { app, BrowserWindow, Menu, ipcMain } from 'electron'
 import { menuTemplate } from "app/src-electron/menu/menu"
 import path from 'path'
 import os from 'os'
@@ -45,11 +45,15 @@ app.whenReady().then(() => {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+  Menu.setApplicationMenu(menu)
 })
-
-Menu.setApplicationMenu(menu)
 
 // app events
 app.on('window-all-closed', () => {
+  app.quit()
+})
+
+// ipc events
+ipcMain.on('quit-app', () =>{
   app.quit()
 })

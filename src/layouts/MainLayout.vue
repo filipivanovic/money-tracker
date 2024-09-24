@@ -111,10 +111,7 @@ function toggleLeftDrawer () {
 const quitApp = () => {
   $q.dialog({
     title: 'Confirm',
-    message: `Really quit MoneyTracker?
-    <div class="text-weight-bold ${useAmountColorClass(entry.amount)}">
-        ${entry.name} : ${useCurrencify(entry.amount)}
-    </div>`,
+    message: `Really quit MoneyTracker?`,
     // cancel: true,
     html: true,
     persistent: true,
@@ -132,5 +129,7 @@ const quitApp = () => {
     }
   })
 }
+
+
 
 </script>
