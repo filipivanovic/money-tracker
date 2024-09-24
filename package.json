@@ -6,7 +6,7 @@
   "author": "Filip Ivanovic <filip_ivanovic@hotmail.com>",
   "private": true,
   "scripts": {
-    "test": "echo \"No test specified\" && exit 0",
+    "icons": "icongenie generate -i app-icon.png --skip-trim",
     "dev": "quasar dev",
     "build": "quasar build"
   },
