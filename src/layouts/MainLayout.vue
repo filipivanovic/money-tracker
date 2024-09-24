@@ -39,11 +39,28 @@
           Navigation
         </q-item-label>
 
-        <EssentialLink
+        <NavLink
           v-for="link in navLinks"
           :key="link.title"
           v-bind="link"
         />
+        <q-item
+          v-if="$q.platform.is.electron"
+          @click="quitApp"
+          clickable
+          tag="a"
+          class="text-white absolute-bottom"
+        >
+          <q-item-section
+            avatar
+          >
+            <q-icon name="power_settings_new" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Quit</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -55,9 +72,13 @@
 
 <script setup>
 import { ref } from 'vue'
-import EssentialLink from 'components/navigation/NavLink.vue'
+import { useQuasar } from "quasar"
+import NavLink from 'components/navigation/NavLink.vue'
 import { useStoreEntries } from 'src/stores/storeEntries'
 import { useLightOrDark } from "src/use/useLightOrDark";
+import { useAmountColorClass } from "src/use/useAmountColorClass";
+import { useCurrencify } from "src/use/useCurrencify";
+import { ipcRenderer } from "electron";
 
 // stores
 
@@ -66,6 +87,8 @@ const storeEntries = useStoreEntries()
 defineOptions({
   name: 'MainLayout'
 })
+
+const $q = useQuasar()
 
 const navLinks = [
   {
@@ -85,4 +108,30 @@ const leftDrawerOpen = ref(false)
 function toggleLeftDrawer () {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
+
+const quitApp = () => {
+  $q.dialog({
+    title: 'Confirm',
+    message: `Really quit MoneyTracker?
+    <div class="text-weight-bold ${useAmountColorClass(entry.amount)}">
+        ${entry.name} : ${useCurrencify(entry.amount)}
+    </div>`,
+    // cancel: true,
+    html: true,
+    persistent: true,
+    ok: {
+      label: 'Quit',
+      color: 'negative'
+    },
+    cancel: {
+      color: 'primary'
+    }
+
+  }).onOk(() => {
+    if ($q.platform.is.electron) {
+      ipcRenderer.send('quit-app')
+    }
+  })
+}
+
 </script>
