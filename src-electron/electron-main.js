@@ -9,7 +9,7 @@ import os from 'os'
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform()
 const menu = Menu.buildFromTemplate(menuTemplate)
-let mainWindow
+export let mainWindow
 
 // app ready
 app.whenReady().then(() => {
