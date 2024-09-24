@@ -1,3 +1,4 @@
+//  imports
 import { app, BrowserWindow } from 'electron'
 import path from 'path'
 import os from 'os'
@@ -7,7 +8,8 @@ const platform = process.platform || os.platform()
 
 let mainWindow
 
-function createWindow () {
+// app ready
+app.whenReady().then(() => {
   /**
    * Initial window options
    */
@@ -38,18 +40,9 @@ function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
-}
-
-app.whenReady().then(createWindow)
-
-app.on('window-all-closed', () => {
-  if (platform !== 'darwin') {
-    app.quit()
-  }
 })
 
-app.on('activate', () => {
-  if (mainWindow === null) {
-    createWindow()
-  }
+// app events
+app.on('window-all-closed', () => {
+  app.quit()
 })
