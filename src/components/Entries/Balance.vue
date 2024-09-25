@@ -15,7 +15,7 @@ const storeEntries = useStoreEntries()
 </script>
 
 <template>
-  <div class="row items-center q-px-md q-py-sm q-mb-sm" :class="useLightOrDark('shadow-up-3', 'bg-black')">
+  <div class="row items-center q-px-md q-py-sm q-mb-sm" :class="useLightOrDark('bg-white shadow-up-3', 'bg-black')">
     <div class="col text-grey-7 text-h6">Balance:</div>
     <div class="col text-h6 text-right" :class="useAmountColorClass(storeEntries.balance)">
       <div class="row">
