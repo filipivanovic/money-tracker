@@ -14,6 +14,7 @@
     "build:mac": "quasar build -m electron"
   },
   "dependencies": {
+    "@capacitor/dialog": "^6.0.1",
     "@quasar/extras": "^1.16.4",
     "pinia": "^2.0.11",
     "quasar": "^2.16.0",

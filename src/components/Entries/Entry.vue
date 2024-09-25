@@ -9,6 +9,7 @@ import { useLightOrDark } from "src/use/useLightOrDark"
 import vSelectAll from 'src/directives/directiveSelectAll'
 import vAutofocus from 'src/directives/directiveAutofocus'
 import { useStoreSettings } from "stores/storeSettings"
+import { Dialog } from '@capacitor/dialog'
 
 // quasar
 const $q = useQuasar()
@@ -36,29 +37,48 @@ const onEntrySlideRight = ({ reset }, entry) => {
   else storeEntries.deleteEntry(entry.id)
 }
 
-const promptToDelete = (reset, entry) => {
-  $q.dialog({
-    title: 'Delete Entry',
-    message: `Would you like to delete this entry?
+const promptToDelete = async (reset, entry) => {
+  const entryDetails = `${entry.name} : ${useCurrencify(entry.amount)}`
+  const title = 'Delete entry'
+  const messageStart = 'Would you like to delete this entry?'
+  const message = $q.platform.is.capacitor ? `${messageStart}\n\n${entryDetails}` : `${messageStart}
     <div class="text-weight-bold ${useAmountColorClass(entry.amount)}">
-        ${entry.name} : ${useCurrencify(entry.amount)}
-    </div>`,
-    // cancel: true,
-    html: true,
-    persistent: true,
-    ok: {
-      label: 'Delete',
-      color: 'negative'
-    },
-    cancel: {
-      color: 'primary'
-    }
+        ${entryDetails}
+    </div>`
+  const okButtonTitle = 'Delete'
 
-  }).onOk(() => {
-    storeEntries.deleteEntry(entry.id)
-  }).onCancel(() => {
-    reset()
-  })
+  if ($q.platform.is.capacitor) {
+    const { value } = await Dialog.confirm({
+      title,
+      message,
+      okButtonTitle
+    })
+    if (value) {
+      storeEntries.deleteEntry(entry.id)
+    } else {
+      reset()
+    }
+  } else {
+    $q.dialog({
+      title: title,
+      message: message,
+      // cancel: true,
+      html: true,
+      persistent: true,
+      ok: {
+        label: okButtonTitle,
+        color: 'negative'
+      },
+      cancel: {
+        color: 'primary'
+      }
+
+    }).onOk(() => {
+      storeEntries.deleteEntry(entry.id)
+    }).onCancel(() => {
+      reset()
+    })
+  }
 }
 
 const onEntrySlideLeft = ({ reset }, entry) => {
