@@ -13,8 +13,10 @@
 
         <q-toolbar-title>
           <div class="absolute-center">
-            <q-icon name="savings" />
-            MoneyTracker
+            <div class="toolbar-title-text">
+              <q-icon name="savings" />
+              MoneyTracker
+            </div>
           </div>
         </q-toolbar-title>
 
