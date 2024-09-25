@@ -6,7 +6,7 @@
   "author": "Filip Ivanovic <filip_ivanovic@hotmail.com>",
   "private": true,
   "scripts": {
-    "icons": "icongenie generate -i app-icon.png --skip-trim",
+    "icons": "icongenie generate -i app-icon.png --skip-trim --theme-color 00695c",
     "dev": "quasar dev",
     "dev:mac": "quasar dev -m electron",
     "dev:ios": "quasar dev -m capacitor -T ios",
