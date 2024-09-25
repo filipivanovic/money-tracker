@@ -78,6 +78,7 @@ export const useStoreEntries = defineStore('entries', () => {
 
   const addEntry = (addEntryForm) => {
     const newEntry = Object.assign({}, addEntryForm, {id: uid(), paid: false})
+    if (newEntry.amount === null) newEntry.amount = 0
     entries.value.push(newEntry)
   }
 

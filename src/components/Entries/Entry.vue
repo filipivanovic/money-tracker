@@ -93,7 +93,7 @@ const onAmountUpdate = (value) => {
       <q-item-section class="text-weight-bold relative-position col" :class="[useAmountColorClass(props.entry.amount)]" side>
         <span :class="{'text-strike': entry.paid}">{{ useCurrencify(props.entry.amount) }}</span>
         <q-popup-edit :model-value="props.entry.amount" anchor="top right" self="top right" :offset="[16, 12]" buttons label-set="OK" @save="onAmountUpdate" :cover="false" auto-save v-slot="scope">
-          <q-input v-select-all v-model.number="scope.value" input-class="text-right" step="0.01" type="number" dense autofocus @keyup.enter="scope.set" />
+          <q-input v-select-all :rules="[val => typeof val === 'number' || 'Enter a valid number']" v-model.number="scope.value" :validate="val => typeof val === 'number'" input-class="text-right" step="0.01" type="number" dense autofocus @keyup.enter="scope.set" />
         </q-popup-edit>
         <q-chip v-if="storeSettings.settings.showRunnningBalance" class="absolute-bottom-right running-balance" :class="useAmountColorClass(storeEntries.runningBalances[index])" outline dense size="9px">
           {{ useCurrencify(storeEntries.runningBalances[index]) }}
