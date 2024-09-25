@@ -11,7 +11,8 @@
     "dev:mac": "quasar dev -m electron",
     "dev:ios": "quasar dev -m capacitor -T ios",
     "build": "quasar build",
-    "build:mac": "quasar build -m electron"
+    "build:mac": "quasar build -m electron",
+    "build:ios": "quasar build -m capacitor -T ios --ide"
   },
   "dependencies": {
     "@capacitor/dialog": "^6.0.1",
