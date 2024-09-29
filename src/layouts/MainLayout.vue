@@ -2,15 +2,7 @@
   <q-layout view="hHh lpR lFf">
     <q-header :elevated="useLightOrDark(true, false)">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer"/>
         <q-toolbar-title>
           <div class="absolute-center">
             <div class="toolbar-title-text">
@@ -19,43 +11,18 @@
             </div>
           </div>
         </q-toolbar-title>
-
         <q-btn v-if="$route.fullPath === '/'" :label="!storeEntries.options.sort ? 'Sort' : 'Done'" flat no-caps dense @click="storeEntries.options.sort = !storeEntries.options.sort" />
-
       </q-toolbar>
     </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      :width="250"
-      :breakpoint="767"
-      bordered
-      class="bg-primary"
-    >
+    <q-drawer v-model="leftDrawerOpen" show-if-above :width="250" :breakpoint="767" bordered class="bg-primary">
       <q-list>
-        <q-item-label
-          header
-          class="text-white"
-        >
+        <q-item-label header class="text-white">
           Navigation
         </q-item-label>
 
-        <NavLink
-          v-for="link in navLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-        <q-item
-          v-if="$q.platform.is.electron"
-          @click="quitApp"
-          clickable
-          tag="a"
-          class="text-white absolute-bottom"
-        >
-          <q-item-section
-            avatar
-          >
+        <NavLink v-for="link in navLinks" key="link.title" v-bind="link"/>
+        <q-item v-if="$q.platform.is.electron" @click="quitApp" clickable tag="a" class="text-white absolute-bottom">
+          <q-item-section avatar>
             <q-icon name="power_settings_new" />
           </q-item-section>
 
@@ -65,7 +32,6 @@
         </q-item>
       </q-list>
     </q-drawer>
-
     <q-page-container>
       <router-view />
     </q-page-container>
